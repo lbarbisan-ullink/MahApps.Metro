@@ -54,3 +54,4 @@ CommonAssemblyInfo.cs
 *.orig
 *.DotSettings
 *.jmconfig
+MahApps.Metro.sln.ide/*

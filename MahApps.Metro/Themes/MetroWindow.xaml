@@ -30,9 +30,12 @@
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="4" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
+
+                    <Border x:Name="PART_Line" Background="{DynamicResource AccentColorBrush}" Grid.Row="0" Grid.ColumnSpan="5"></Border>
 
                     <Rectangle x:Name="PART_WindowTitleBackground"
                                Focusable="False"
@@ -40,13 +43,14 @@
                                Height="{Binding TitlebarHeight, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
                                Visibility="{TemplateBinding ShowTitleBar, Converter={StaticResource BooleanToVisibilityConverter}}"
                                Grid.Column="0"
+                               Grid.Row="1"
                                Grid.ColumnSpan="5"
                                StrokeThickness="0" />
 
                     <!-- icon -->
                     <ContentControl x:Name="PART_Icon"
                                     Focusable="False"
-                                    Grid.Row="0"
+                                    Grid.Row="1"
                                     Grid.Column="0"
                                     Panel.ZIndex="1"
                                     Content="{TemplateBinding Icon}"
@@ -62,7 +66,7 @@
                                       Focusable="False"
                                       Content="{Binding LeftWindowCommands, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
                                       Panel.ZIndex="1"
-                                      Grid.Row="0"
+                                      Grid.Row="1"
                                       Grid.Column="1"
                                       Grid.RowSpan="2"
                                       VerticalAlignment="Top"
@@ -72,7 +76,7 @@
                     <!-- the title bar -->
                     <ContentControl x:Name="PART_TitleBar"
                                     Focusable="False"
-                                    Grid.Row="0"
+                                    Grid.Row="1"
                                     Grid.Column="2"
                                     Content="{TemplateBinding Title}"
                                     ContentTemplate="{TemplateBinding TitleTemplate}"
@@ -97,7 +101,7 @@
                                       Focusable="False"
                                       Content="{Binding RightWindowCommands, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
                                       Panel.ZIndex="1"
-                                      Grid.Row="0"
+                                      Grid.Row="1"
                                       Grid.Column="3"
                                       Grid.RowSpan="2"
                                       VerticalAlignment="Top"
@@ -108,14 +112,14 @@
                     <Controls:WindowButtonCommands x:Name="PART_WindowButtonCommands"
                                                    Focusable="False"
                                                    Panel.ZIndex="1"
-                                                   Grid.Row="0"
+                                                   Grid.Row="1"
                                                    Grid.Column="4"
                                                    Grid.RowSpan="2"
                                                    VerticalAlignment="Top"
                                                    Height="{Binding TitlebarHeight, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
 
                     <!-- the main window content -->
-                    <Controls:MetroContentControl Grid.Row="1"
+                    <Controls:MetroContentControl Grid.Row="2"
                                                   Grid.Column="0"
                                                   Grid.ColumnSpan="5"
                                                   IsTabStop="False"
@@ -126,7 +130,7 @@
                     </Controls:MetroContentControl>
 
                     <!-- disables the main content when a modal flyout is shown -->
-                    <Rectangle Grid.Row="0"
+                    <Rectangle Grid.Row="1"
                                Grid.RowSpan="2"
                                Grid.ColumnSpan="5"
                                Grid.Column="0"
@@ -136,7 +140,7 @@
                                Visibility="Hidden" />
 
                     <!-- flyouts -->
-                    <ContentControl Grid.Row="0"
+                    <ContentControl Grid.Row="1"
                                     Grid.Column="0"
                                     Grid.ColumnSpan="5"
                                     Grid.RowSpan="2"
@@ -147,7 +151,7 @@
                                     VerticalAlignment="Stretch" />
 
                     <!-- Used to create that overlay effect. Can be used for anything. -->
-                    <Grid Grid.Row="0"
+                    <Grid Grid.Row="1"
                           Grid.Column="0"
                           Grid.ColumnSpan="5"
                           Grid.RowSpan="2"
@@ -159,7 +163,7 @@
                           Opacity="0"
                           Visibility="Hidden" />
 
-                    <Grid Grid.Row="0"
+                    <Grid Grid.Row="1"
                           Grid.Column="0"
                           Grid.ColumnSpan="5"
                           Grid.RowSpan="2"
@@ -201,12 +205,10 @@
             <!-- handle active/inactive state -->
             <Trigger Property="IsActive"
                      Value="False">
-                <Setter TargetName="PART_WindowTitleBackground"
-                        Property="Fill"
-                        Value="{Binding Path=NonActiveWindowTitleBrush, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Controls:MetroWindow}}}" />
-                <Setter TargetName="PART_Border"
-                        Property="BorderBrush"
-                        Value="{Binding Path=NonActiveBorderBrush, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Controls:MetroWindow}}}" />
+                <Setter TargetName="PART_Line"
+                        Property="Background"
+                        Value="{DynamicResource WhiteBrush}"
+                        ></Setter>
             </Trigger>
             <!-- no icon and no icon content template -> collapse the icon content control -->
             <MultiTrigger>
@@ -262,7 +264,7 @@
             </Setter.Value>
         </Setter>
         <Setter Property="TitleForeground"
-                Value="{DynamicResource IdealForegroundColorBrush}" />
+                Value="{DynamicResource BlackBrush}" />
         <Setter Property="Template"
                 Value="{StaticResource WindowTemplateKey}" />
         <Setter Property="TitleTemplate">
@@ -388,7 +390,7 @@
                                     <DataTrigger Binding="{Binding ShowTitleBar, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Controls:MetroWindow}}}"
                                                  Value="True">
                                         <Setter Property="Foreground"
-                                                Value="{DynamicResource IdealForegroundColorBrush}" />
+                                                Value="{DynamicResource BlackBrush}" />
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
@@ -522,7 +524,7 @@
                             </Button.Visibility>
                             <Path Data="F1M0,6L0,9 9,9 9,6 0,6z"
                                   SnapsToDevicePixels="True"
-                                  Fill="{TemplateBinding Foreground}" />
+                                  Fill="{DynamicResource BlackBrush}" />
                         </Button>
 
                         <Button x:Name="PART_Max"
@@ -543,7 +545,7 @@
                                 </MultiBinding>
                             </Button.Visibility>
                             <Path x:Name="MaxPath" SnapsToDevicePixels="True"
-                                  Fill="{TemplateBinding Foreground}" >
+                                   Fill="{DynamicResource BlackBrush}">
                             </Path>
                         </Button>
 
@@ -556,7 +558,7 @@
                                 Visibility="{Binding ShowCloseButton, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Controls:MetroWindow}}, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <Path Data="F1M0,0L2,0 5,3 8,0 10,0 6,4 10,8 8,8 5,5 2,8 0,8 4,4 0,0z"
                                   SnapsToDevicePixels="True"
-                                  Fill="{TemplateBinding Foreground}" />
+                                  Fill="{DynamicResource BlackBrush}" />
                         </Button>
                     </StackPanel>
                     <ControlTemplate.Triggers>
@@ -574,7 +576,7 @@
             <DataTrigger Binding="{Binding ShowTitleBar, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Controls:MetroWindow}}}"
                          Value="True">
                 <Setter Property="Foreground"
-                        Value="{DynamicResource IdealForegroundColorBrush}" />
+                        Value="{DynamicResource BlackBrush}" />
             </DataTrigger>
             <DataTrigger Binding="{Binding ShowTitleBar, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Controls:MetroWindow}}}"
                          Value="False">
