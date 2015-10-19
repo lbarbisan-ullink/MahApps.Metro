@@ -219,8 +219,6 @@ namespace MahApps.Metro.Controls.Dialogs
         /// <returns>A task promising the instance of ProgressDialogController for this operation.</returns>
         public static Task<ProgressDialogController> ShowProgressAsync(this MetroWindow window, string title, string message, bool isCancelable = false, MetroDialogSettings settings = null)
         {
-            window.Dispatcher.VerifyAccess();
-
             return HandleOverlayOnShow(settings, window).ContinueWith(z =>
             {
                 return ((Task<ProgressDialogController>)window.Dispatcher.Invoke(new Func<Task<ProgressDialogController>>(() =>
@@ -292,16 +290,24 @@ namespace MahApps.Metro.Controls.Dialogs
 
         private static Task HandleOverlayOnShow(MetroDialogSettings settings, MetroWindow window)
         {
-            if (window.metroActiveDialogContainer.Children.Count == 0)
+            Task task = null;
+            window.Dispatcher.Invoke(() =>
             {
-                return (settings == null || settings.AnimateShow ? window.ShowOverlayAsync() : Task.Factory.StartNew(() => window.Dispatcher.Invoke(new Action(window.ShowOverlay))));
-            }
-            else
-            {
-                var tcs = new System.Threading.Tasks.TaskCompletionSource<object>();
-                tcs.SetResult(null);
-                return tcs.Task;
-            }
+                if (window.metroActiveDialogContainer.Children.Count == 0)
+                {
+                    task = (settings == null || settings.AnimateShow
+                        ? window.ShowOverlayAsync()
+                        : Task.Factory.StartNew(() => window.Dispatcher.Invoke(new Action(window.ShowOverlay))));
+                }
+                else
+                {
+                    var tcs = new System.Threading.Tasks.TaskCompletionSource<object>();
+                    tcs.SetResult(null);
+                    task = tcs.Task;
+                }
+            });
+
+            return task;
         }
 
         /// <summary>

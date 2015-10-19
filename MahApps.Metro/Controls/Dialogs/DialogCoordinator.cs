@@ -70,8 +70,8 @@ namespace MahApps.Metro.Controls.Dialogs
                     "Context is not registered. Consider using DialogParticipation.Register in XAML to bind in the DataContext.");
 
             var association = DialogParticipation.GetAssociation(context);
-            var metroWindow = Window.GetWindow(association) as MetroWindow;
-
+            MetroWindow metroWindow = null;
+            association.Dispatcher.Invoke(() => metroWindow = Window.GetWindow(association) as MetroWindow);
             if (metroWindow == null)
                 throw new InvalidOperationException("Control is not inside a MetroWindow.");
             return metroWindow;
