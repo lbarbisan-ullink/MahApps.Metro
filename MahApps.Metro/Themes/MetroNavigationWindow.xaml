@@ -6,7 +6,7 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="50" />
+            <RowDefinition Height="40" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
@@ -77,9 +77,33 @@
                     </Rectangle.Fill>
                 </Rectangle>
             </Button>
+            <Button x:Name="PART_HomeButton"
+                    DockPanel.Dock="Right"
+                    Style="{DynamicResource MetroCircleButtonStyle}"
+                    Height="40"
+                    Width="40"
+                    FontFamily="Segoe UI Symbol"
+                    FontSize="16"
+                    VerticalAlignment="Bottom"
+                    HorizontalAlignment="Right">
+                <Rectangle Width="20"
+                           Height="15">
+                    <Rectangle.Fill>
+                        <VisualBrush Stretch="Fill">
+                            <VisualBrush.Visual>
+                                <Canvas Width="48"
+                                        Height="48"
+                                        Clip="F1 M 0,0L 48,0L 48,48L 0,48L 0,0"
+                                        UseLayoutRounding="False">
+                                </Canvas>
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </Rectangle.Fill>
+                </Rectangle>
+            </Button>
             <Label FontSize="25"
                    x:Name="PART_Title"
-                   Margin="0 5 0 0" />
+                   Margin="0 0 0 0" />
         </StackPanel>
 
         <Grid Grid.Row="1">
@@ -87,7 +111,7 @@
                               Content="{Binding OverlayContent, RelativeSource={RelativeSource AncestorType=Controls:MetroNavigationWindow,Mode=FindAncestor}}" />
             <Frame x:Name="PART_Frame"
                    NavigationUIVisibility="Hidden"
-                   Margin="3 0 3 0" />
+                   Margin="0 0 0 0" />
         </Grid>
     </Grid>
 </Controls:MetroWindow>

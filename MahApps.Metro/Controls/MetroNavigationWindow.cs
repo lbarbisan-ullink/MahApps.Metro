@@ -34,6 +34,7 @@ namespace MahApps.Metro.Controls
 
             PART_BackButton.Click += PART_BackButton_Click;
             PART_ForwardButton.Click += PART_ForwardButton_Click;
+            PART_HomeButton.Click += PART_HomeButton_Click;
         }
 
         [System.Diagnostics.DebuggerNonUserCode]
@@ -85,6 +86,12 @@ namespace MahApps.Metro.Controls
             if (CanGoBack)
                 GoBack();
         }
+
+        void PART_HomeButton_Click(object sender, RoutedEventArgs e)
+        {
+            GoHome();
+        }
+
         [System.Diagnostics.DebuggerNonUserCode]
         void MetroNavigationWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -98,6 +105,7 @@ namespace MahApps.Metro.Controls
 
             PART_ForwardButton.Click -= PART_ForwardButton_Click;
             PART_BackButton.Click -= PART_BackButton_Click;
+            PART_HomeButton.Click -= PART_HomeButton_Click;
 
             this.Loaded -= MetroNavigationWindow_Loaded;
             this.Closing -= MetroNavigationWindow_Closing;
@@ -213,6 +221,21 @@ namespace MahApps.Metro.Controls
         {
             PART_Frame.GoForward();
         }
+
+        /// <summary>
+        /// Navigates to the most recent item in forward navigation history.
+        /// </summary>
+        /// <see cref="System.Windows.Navigation.NavigationWindow.GoForward"/>
+        [System.Diagnostics.DebuggerNonUserCode]
+        public void GoHome()
+        {
+            JournalEntry entry = null;
+            while (PART_Frame.NavigationService.CanGoBack)
+            {
+                GoBack();
+            }
+        }
+
 
         /// <summary>
         /// Navigates asynchronously to content that is contained by an object.
